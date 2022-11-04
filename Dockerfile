@@ -5,7 +5,6 @@ FROM ${JITSI_REPO}/base-java:${BASE_TAG}
 ARG USE_CHROMIUM=0
 ARG CHROME_RELEASE=106.0.5249.61
 ARG CHROMEDRIVER_MAJOR_RELEASE=106
-COPY rootfs/ /tmp/
 ENV RCLONE_VER=1.56.2 \
     BUILD_DATE=20220325T013603 \
     ARCH=amd64 \
@@ -13,15 +12,18 @@ ENV RCLONE_VER=1.56.2 \
     CONFIG="--config /config/rclone/rclone.conf" \
     PARAMS=""
 
+COPY rootfs/ /
+
 LABEL build_version="Version:- ${RCLONE_VER} Build-date:- ${BUILD_DATE}"
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN apt-dpkg-wrap apt-get update && \
+    chmod +x /usr/bin/install-chrome.sh && \
     apt-dpkg-wrap apt-get install -y jibri pulseaudio socat dbus dbus-x11 rtkit procps unzip wget stunnel4 && \
     apt-cleanup && \
     apt-dpkg-wrap apt-get update && \
-    /tmp/usr/bin/install-chrome.sh && \
+    /usr/bin/install-chrome.sh && \
     apt-dpkg-wrap apt-get install -y jitsi-upload-integrations jq pulseaudio-utils && \
     apt-cleanup
 
@@ -44,7 +46,7 @@ RUN curl -O https://downloads.rclone.org/v${RCLONE_VER}/rclone-v${RCLONE_VER}-li
 # copying pulse audio related files
 COPY pulseaudio-config/ /etc/jitsi/jibri/
 
-COPY rootfs/ /
+
 
 COPY start-pulseaudio.sh /home/jibri/.config/pulse/
 COPY daemon.conf /etc/pulse/

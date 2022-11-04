@@ -32,8 +32,6 @@ RUN apt-dpkg-wrap apt-get update && \
     apt-dpkg-wrap apt-get update && \
     apt-dpkg-wrap apt-get install -y "/tmp/google-chrome-stable_${CHROME_RELEASE}-1_amd64.deb" && \
     apt-cleanup || \
-    [ "${CHROMEDRIVER_MAJOR_RELEASE}" = "latest" ] && \
-    CHROMEDRIVER_RELEASE="$(curl -4Ls https://chromedriver.storage.googleapis.com/LATEST_RELEASE)" || \
     CHROMEDRIVER_RELEASE="$(curl -4Ls https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROMEDRIVER_MAJOR_RELEASE})" && \
     curl -4Ls "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_RELEASE}/chromedriver_linux64.zip" \
     | zcat >> /usr/bin/chromedriver && \

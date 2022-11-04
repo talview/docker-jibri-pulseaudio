@@ -2,10 +2,10 @@ ARG JITSI_REPO=jitsi
 ARG BASE_TAG=unstable
 FROM ${JITSI_REPO}/base-java:${BASE_TAG}
 
-#ARG CHROME_RELEASE=latest
-#ARG CHROMEDRIVER_MAJOR_RELEASE=latest
-ARG CHROME_RELEASE=106.0.5249.61
-ARG CHROMEDRIVER_MAJOR_RELEASE=106
+ARG CHROME_RELEASE=latest
+ARG CHROMEDRIVER_MAJOR_RELEASE=latest
+# ARG CHROME_RELEASE=99.0.4844.84
+# ARG CHROMEDRIVER_MAJOR_RELEASE=99
 
 ENV RCLONE_VER=1.56.2 \
     BUILD_DATE=20220325T013603 \
@@ -32,6 +32,8 @@ RUN apt-dpkg-wrap apt-get update && \
     apt-dpkg-wrap apt-get update && \
     apt-dpkg-wrap apt-get install -y "/tmp/google-chrome-stable_${CHROME_RELEASE}-1_amd64.deb" && \
     apt-cleanup || \
+    [ "${CHROMEDRIVER_MAJOR_RELEASE}" = "latest" ] && \
+    CHROMEDRIVER_RELEASE="$(curl -4Ls https://chromedriver.storage.googleapis.com/LATEST_RELEASE)" || \
     CHROMEDRIVER_RELEASE="$(curl -4Ls https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROMEDRIVER_MAJOR_RELEASE})" && \
     curl -4Ls "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_RELEASE}/chromedriver_linux64.zip" \
     | zcat >> /usr/bin/chromedriver && \

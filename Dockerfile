@@ -75,7 +75,7 @@ RUN chmod +x /home/jibri/.config/pulse/start-pulseaudio.sh && \
 
 COPY stunnel.conf /etc/stunnel/stunnel.conf
 COPY startstunnel /usr/bin/startstunnel
-COPY jibri/target/jibri-8.0-SNAPSHOT.jar  /opt/jitsi/jibri/jibri.jar
+COPY jibri/target/jibri-8.0-SNAPSHOT-jar-with-dependencies.jar  /opt/jitsi/jibri/jibri.jar
 
 RUN chmod +x /usr/bin/startstunnel && \
     mkdir -p /opt/util/

@@ -69,6 +69,19 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check out jibri
+        uses: actions/checkout@v3
+        with:
+          repository: talview/jibri
+          ref: talview_stable
+          path: jibri
+      - name: Build jar
+        run: |
+          cd jibri
+          mvn install -Dassembly.skipAssembly=false -DskipTests
+        env:
+          WORKSPACE: ${{ github.workspace }}
+          MAVEN_OPTS: "-Xmx3G"
       - name: Build and push
         uses: docker/build-push-action@v3
         with:

@@ -39,7 +39,8 @@ RUN apt-dpkg-wrap apt-get update && \
     chmod +x /usr/bin/chromedriver && \
     chromedriver --version && \
     apt-dpkg-wrap apt-get update && \
-    apt-dpkg-wrap apt-get install -y jitsi-upload-integrations jq pulseaudio-utils && \
+    apt-dpkg-wrap apt-get install -y jitsi-upload-integrations jq pulseaudio-utils python3 python3-dev python3-pip python3-setuptools groff less  \
+    && pip3 install --upgrade awscli \
     apt-cleanup
 
 RUN curl -O https://downloads.rclone.org/v${RCLONE_VER}/rclone-v${RCLONE_VER}-linux-${ARCH}.zip && \
@@ -87,14 +88,5 @@ RUN mv /usr/bin/ffmpeg /usr/bin/ffmpeg2 && \
     ln -s /opt/util/ffmpeg /usr/bin/ffmpeg && \
     chmod +x /usr/bin/ffmpeg
 
-RUN apt-dpkg-wrap apt-get install -y \
-        python3 \
-        python3-dev \
-        python3-pip \
-        python3-setuptools \
-        groff \
-        less \
-    && pip3 install --upgrade awscli \
-    && apt-dpkg-wrap apt-get clean
 
 VOLUME /config

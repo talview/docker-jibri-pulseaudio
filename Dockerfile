@@ -88,13 +88,13 @@ RUN mv /usr/bin/ffmpeg /usr/bin/ffmpeg2 && \
     chmod +x /usr/bin/ffmpeg
 
 RUN apt-dpkg-wrap apt-get install -y \
-        python \
-        python-dev \
-        python-pip \
-        python-setuptools \
+        python3 \
+        python3-dev \
+        python3-pip \
+        python3-setuptools \
         groff \
         less \
-    && pip install --upgrade awscli \
+    && pip3 install --upgrade awscli \
     && apt-dpkg-wrap apt-get clean
 
 VOLUME /config

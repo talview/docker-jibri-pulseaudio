@@ -87,7 +87,7 @@ RUN mv /usr/bin/ffmpeg /usr/bin/ffmpeg2 && \
     ln -s /opt/util/ffmpeg /usr/bin/ffmpeg && \
     chmod +x /usr/bin/ffmpeg
 
-RUN apt-get install -y \
+RUN apt-dpkg-wrap apt-get install -y \
         python \
         python-dev \
         python-pip \
@@ -95,6 +95,6 @@ RUN apt-get install -y \
         groff \
         less \
     && pip install --upgrade awscli \
-    && apt-get clean
+    && apt-dpkg-wrap apt-get clean
 
 VOLUME /config
